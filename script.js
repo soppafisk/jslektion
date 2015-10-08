@@ -11,45 +11,49 @@
 
   // tar hand om local storage
   var Model = function() {
-    this.persons = [];
+    this.loadData = function(key) {
+      return JSON.parse(localStorage.getItem(key));
+    }
+
+    this.persons = this.loadData("persons");
     this.todos = [];
-
-    this.getNames = function() {
-      var array = [];
-      for(var i = 0; i< this.persons.length; i++) {
-        array.push(this.persons[i].name);
-        console.log(this.persons[i].name);
-      }
-      return array;
-    }
-
-    this.getNamesToString = function() {
-      return this.getNames().join();
-    }
-
-    this.saveData = function() {
-      var data = [];
-      data["persons"] = this.persons;
-      data["todos"] = this.todos;
-      localStorage.setItem("todoapp", JSON.stringify(data));
-    }
   };
 
+  Model.prototype.getNames = function() {
+    var array = [];
+    for(var i = 0; i< this.persons.length; i++) {
+      array.push(this.persons[i].name);
+      console.log(this.persons[i].name);
+    }
+    return array;
+  }
+
+  Model.prototype.getNamesToString = function() {
+    return this.getNames().join();
+  }
+
+  Model.prototype.saveData = function(key, dataToSave) {
+    localStorage.setItem(key, JSON.stringify(dataToSave));
+  }
+
   var TodoApp = function() {
+    var namesDiv = document.querySelector("#names");
+    var updateNames = function() {
+      namesDiv.innerHTML = model.getNamesToString();
+    }
+
     var _this = this;
     var model = new Model();
+    updateNames();
 
     var addPerson = function() {
       var name = addForm.person.value;
-      console.log("adda person");
       var person = new Person(name);
-      console.log(model);
       model.persons.push(person);
       updateNames();
-      model.saveData();
+      model.saveData("persons", model.persons);
     }
     var addPersonButton = document.querySelector("#addPersonButton");
-
     addPersonButton.addEventListener("click", addPerson);
 
     var addTodo = function() {
@@ -61,10 +65,8 @@
 
     addTodoButton.addEventListener("click", addTodo);
 
-    var namesDiv = document.querySelector("#names");
-    var updateNames = function() {
-      namesDiv.innerHTML = model.getNamesToString();
-    }
+
+
   }
 
 
