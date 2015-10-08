@@ -14,6 +14,19 @@
    this.name = name;
    this.data = [];
  }
+ var d = document.querySelector.bind(document);
+ var render = function(template, data) {
+ 	var template = d('.' + template).innerHTML;
+ 	for (var key in data) {
+ 		template = template.replace('{' + key + '}'. data[key]);
+ 	}
+ 	return template; 	
+ }
+
+ // var renderedTodos = '';
+ // for (var i = 0; i < ; i++) {
+ // 	d('#todos').innerHTML = renderedTodos; 	
+ // } 
 
  store.prototype.load = function () {
  	this.data = localStorage.getItem(this.name)
@@ -43,13 +56,29 @@
     return array;
   }
 
-  Model.prototype.getNamesToString = function() {
+ 	Model.prototype.getNamesToString = function() {
     return this.getNames().join();
   }
+
+  Model.prototype.getTodos = function() {
+    var array = [];
+    for(var i = 0; i< this.todos.length; i++) {
+      array.push(this.todos[i].description);
+      console.log(this.todos[i].description);
+    }
+    return array;
+  }
+
+  Model.prototype.getTodosToString = function() {
+    return this.getTodos().join();
+  }
+
 
   Model.prototype.saveData = function(key, dataToSave) {
     localStorage.setItem(key, JSON.stringify(dataToSave));
   }
+
+
 
   var TodoApp = function() {
     var namesDiv = document.querySelector("#names");
@@ -58,7 +87,7 @@
     }
     var todosDiv = document.querySelector("#todos");
     var updateTodos = function() {
-      namesDiv.innerHTML = model.getNamesToString();
+      todosDiv.innerHTML = model.getTodosToString();
     }
 
     var _this = this;

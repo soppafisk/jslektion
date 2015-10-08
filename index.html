@@ -4,6 +4,14 @@
     <meta charset="utf-8">
     <title></title>
 
+   <script type="text/template" class="assign">
+   		<p>{description}</p>
+   		Ska göras av: <select>
+   			<option>{person}</option>
+   		</select>
+   		<br>
+   		<button id="todoDone">KLAAAR!</button>
+   </script>
   </head>
   <body>
 
@@ -13,6 +21,9 @@
       <h2>Lägg till en todo</h2>
       <form class="" id="addForm" action="#" method="post">
         <input type="text" name="todo" value="Att göra"><input type="button" id="addTodoButton" value="Lägg till todo"><br /><br />
+
+        <div id="todos">
+    	</div>
 
          <h2>Lägg till ett namn</h2>
         <input type="text" name="person" value="namn"><input type="button" id="addPersonButton" value="Lägg till namn">
