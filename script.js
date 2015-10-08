@@ -9,6 +9,20 @@
 
   };
 
+ var store = function(name) {
+   this.name = name;
+   this.data = [];
+ }
+
+ store.prototype.load = function () {
+ 	this.data = localStorage.getItem(this.name)
+ }
+
+ var userStore =  new store("users");
+
+  userStore.load();
+  userStore.data;
+
   // tar hand om local storage
   var Model = function() {
     this.persons = [];
