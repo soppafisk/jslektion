@@ -13,7 +13,7 @@
   // tar hand om local storage
   var Model = function() {
     this.persons = this.loadData("persons");
-    this.todos = [];
+    this.todos = this.loadData("todos");
   };
 
   Model.prototype.loadData = function(key) {
@@ -42,6 +42,10 @@
     var updateNames = function() {
       namesDiv.innerHTML = model.getNamesToString();
     }
+    var todosDiv = document.querySelector("#todos");
+    var updateTodos = function() {
+      namesDiv.innerHTML = model.getNamesToString();
+    }
 
     var _this = this;
     var model = new Model();
@@ -58,8 +62,11 @@
     addPersonButton.addEventListener("click", addPerson);
 
     var addTodo = function() {
-      console.log("adda todo");
-      var todo = new Todo();
+      var description = addForm.todo.value;
+      var todo = new Todo(description);
+      model.todos.push(todo);
+      updateTodos();
+      model.saveData("todos", model.todos);
 
     }
     var addTodoButton = document.querySelector("#addTodoButton");
