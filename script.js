@@ -13,13 +13,25 @@
   var Model = function() {
     this.persons = [];
     this.todos = [];
-    this.getNamesToString = function() {
+
+    this.getNames = function() {
       var array = [];
       for(var i = 0; i< this.persons.length; i++) {
         array.push(this.persons[i].name);
         console.log(this.persons[i].name);
       }
-      return array.join();
+      return array;
+    }
+
+    this.getNamesToString = function() {
+      return this.getNames().join();
+    }
+
+    this.saveData = function() {
+      var data = [];
+      data["persons"] = this.persons;
+      data["todos"] = this.todos;
+      localStorage.setItem("todoapp", JSON.stringify(data));
     }
   };
 
@@ -34,7 +46,7 @@
       console.log(model);
       model.persons.push(person);
       updateNames();
-
+      model.saveData();
     }
     var addPersonButton = document.querySelector("#addPersonButton");
 
