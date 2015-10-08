@@ -5,19 +5,20 @@
   };
 
   // todoklass
-  var Todo = function() {
-
+  var Todo = function(description, person) {
+    this.description = description;
+    this.person = person;
   };
 
   // tar hand om local storage
   var Model = function() {
-    this.loadData = function(key) {
-      return JSON.parse(localStorage.getItem(key));
-    }
-
     this.persons = this.loadData("persons");
     this.todos = [];
   };
+
+  Model.prototype.loadData = function(key) {
+    return JSON.parse(localStorage.getItem(key)) || [];
+  }
 
   Model.prototype.getNames = function() {
     var array = [];
@@ -62,20 +63,13 @@
 
     }
     var addTodoButton = document.querySelector("#addTodoButton");
-
     addTodoButton.addEventListener("click", addTodo);
-
-
-
   }
 
+  var run = function() {
+    var app = new TodoApp();
+  }
 
-
-
-var run = function() {
-  var app = new TodoApp();
-}
-
-document.addEventListener("DOMContentLoaded", run);
+  document.addEventListener("DOMContentLoaded", run);
 
 })(window);
